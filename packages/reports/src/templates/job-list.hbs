@@ -1,0 +1,99 @@
+<div class="card">
+  <h2>Lint Job Results</h2>
+
+  <div class="stats">
+    <div class="stat-card">
+      <div class="stat-value">{{totalJobs}}</div>
+      <div class="stat-label">Total Jobs</div>
+    </div>
+  </div>
+
+  <form method="GET" action="/" class="filters">
+    <input type="text" name="search" placeholder="Search by document name or ID..." value="{{filters.search}}"
+      style="flex: 1; min-width: 300px;">
+    <select name="status">
+      <option value="">All Statuses</option>
+      <option value="completed" {{#if (eq filters.status 'completed' )}}selected{{/if}}>Completed</option>
+      <option value="failed" {{#if (eq filters.status 'failed' )}}selected{{/if}}>Failed</option>
+      <option value="timeout" {{#if (eq filters.status 'timeout' )}}selected{{/if}}>Timeout</option>
+    </select>
+    <button type="submit" class="btn">Filter</button>
+  </form>
+
+  {{#if jobs.length}}
+  <table>
+    <thead>
+      <tr>
+        <th>Job</th>
+        <th>Ruleset</th>
+        <th>Status</th>
+        <th>Issues</th>
+        <th>Timestamp</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each jobs}}
+      <tr>
+        <td>
+          <strong>Job: {{this.id}}</strong>
+          {{#if this.documentName}}
+          <br><small style="color: #7f8c8d;">
+            {{this.documentName}}{{#if this.documentVersion}} - v{{this.documentVersion}}{{/if}}
+          </small>
+          {{/if}}
+        </td>
+        <td>
+          {{#if this.rulesetName}}
+          <strong>{{this.rulesetName}}</strong>
+          {{#if this.rulesetVersion}}<br><small style="color: #7f8c8d;">v{{this.rulesetVersion}}</small>{{/if}}
+          {{else}}
+          <span style="color: #95a5a6;">-</span>
+          {{/if}}
+        </td>
+        <td>{{{statusBadge this.status}}}</td>
+        <td>
+          {{#if this.totalIssues}}
+          <span title="Errors: {{this.errorCount}}, Warnings: {{this.warningCount}}">
+            {{this.totalIssues}} issues
+          </span>
+          {{else}}
+          <span style="color: #27ae60;">✓ 0 issues</span>
+          {{/if}}
+        </td>
+        <td>{{formatDate this.completedAt}}</td>
+        <td>
+          <a href="/view/jobs/{{this.id}}" class="btn" style="padding: 0.25rem 0.75rem; font-size: 0.9rem;">View
+            Details</a>
+        </td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+
+  <div class="pagination">
+    {{#if hasPrev}}
+    <a href="/?limit={{limit}}&offset={{prevOffset}}{{#if filters.status}}&status={{filters.status}}{{/if}}{{#if filters.search}}&search={{filters.search}}{{/if}}"
+      class="btn">← Previous</a>
+    {{else}}
+    <button class="btn" disabled>← Previous</button>
+    {{/if}}
+
+    <span style="align-self: center; color: #7f8c8d;">
+      Showing {{offset}}–{{#if hasNext}}{{nextOffset}}{{else}}{{totalJobs}}{{/if}} of {{totalJobs}}
+    </span>
+
+    {{#if hasNext}}
+    <a href="/?limit={{limit}}&offset={{nextOffset}}{{#if filters.status}}&status={{filters.status}}{{/if}}{{#if filters.search}}&search={{filters.search}}{{/if}}"
+      class="btn">Next →</a>
+    {{else}}
+    <button class="btn" disabled>Next →</button>
+    {{/if}}
+  </div>
+  {{else}}
+  <p style="color: #7f8c8d; text-align: center; padding: 2rem;">
+    No jobs found. {{#if filters.search}}Try adjusting your search filters.{{else}}Start by running a lint job with the
+    linting orchestrator.{{/if}}
+  </p>
+  {{/if}}
+</div>

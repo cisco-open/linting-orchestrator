@@ -1,0 +1,6 @@
+# oas-recommended v1.0.0
+# Extends Spectral's built-in OAS recommended profile.
+# No additional npm dependencies required.
+extends: [[spectral:oas, recommended]]
+rules:
+  info-contact: true

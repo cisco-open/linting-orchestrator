@@ -1,0 +1,150 @@
+<div class="card">
+  <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 2rem;">
+    <div>
+      <h2>Job: {{job.jobId}}</h2>
+      {{#if job.documentName}}
+        <p style="color: #2c3e50; font-size: 1.1rem; margin-top: 0.5rem;">
+          {{job.documentName}}
+          {{#if job.documentVersion}}<span style="color: #7f8c8d;"> - v{{job.documentVersion}}</span>{{/if}}
+        </p>
+      {{/if}}
+      <p style="color: #7f8c8d; margin-top: 0.5rem;">Document ID: <code>{{job.documentId}}</code></p>
+    </div>
+    <div>
+      {{{statusBadge job.status}}}
+    </div>
+  </div>
+
+<div class="card">
+  <h2>Summary</h2>
+
+  <div class="stats">
+    {{#if job.summary}}
+      <div class="stat-card">
+        <div class="stat-value">{{job.summary.totalIssues}}</div>
+        <div class="stat-label">Total Issues</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" style="color: #e74c3c;">{{job.summary.errorCount}}</div>
+        <div class="stat-label">Errors</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" style="color: #f39c12;">{{job.summary.warningCount}}</div>
+        <div class="stat-label">Warnings</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" style="color: #3498db;">{{job.summary.infoCount}}</div>
+        <div class="stat-label">Info</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" style="color: #95a5a6;">{{job.summary.hintCount}}</div>
+        <div class="stat-label">Hints</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">{{formatDuration job.summary.durationMs}}</div>
+        <div class="stat-label">Duration</div>
+      </div>
+    {{/if}}
+  </div>
+</div>
+
+{{#if job.results}}
+  {{!-- NOTE: The orchestrator sends only ONE ruleset per job, so we display results[0] only --}}
+  <div class="card">
+    <h2>Ruleset Results</h2>
+    {{#with (lookup job.results 0)}}
+      <div style="margin-bottom: 2rem;">
+        <h3 style="margin-bottom: 1rem;">
+          {{this.rulesetName}}
+          {{#if this.rulesetVersion}}<small style="color: #7f8c8d;">v{{this.rulesetVersion}}</small>{{/if}}
+          {{{statusBadge this.status}}}
+        </h3>
+        
+        <table style="margin-bottom: 1.5rem;">
+          <tr>
+            <th style="width: 150px;">Ruleset Name</th>
+            <td>{{this.rulesetName}}</td>
+          </tr>
+          {{#if this.rulesetVersion}}
+            <tr>
+              <th>Version</th>
+              <td>{{this.rulesetVersion}}</td>
+            </tr>
+          {{/if}}
+          <tr>
+            <th>Status</th>
+            <td>{{{statusBadge this.status}}}</td>
+          </tr>
+          {{#if this.durationMs}}
+            <tr>
+              <th>Duration</th>
+              <td>{{formatDuration this.durationMs}}</td>
+            </tr>
+          {{/if}}
+          <tr>
+            <th>Issues Found</th>
+            <td>{{this.summary.totalIssues}}</td>
+          </tr>
+        </table>
+
+        <h3 style="margin-bottom: 1rem;">Issues</h3>
+        
+        {{#if this.truncated}}
+          <div style="padding: 0.75rem 1rem; margin-bottom: 1rem; background: #fff3cd; border: 1px solid #ffc107; border-radius: 4px; color: #856404;">
+            ⚠ Report truncated: showing {{this.issues.length}} of {{this.originalIssueCount}} issues. Summary counts reflect full results.
+          </div>
+        {{/if}}
+
+        {{#if this.issues}}
+          <p style="margin-bottom: 1rem; color: #7f8c8d;">
+            Found {{this.issues.length}} issue{{#unless (eq this.issues.length 1)}}s{{/unless}}
+          </p>
+
+          {{#each this.issues}}
+            <div class="issue issue-{{#if (eq this.severity 0)}}error{{else}}{{#if (eq this.severity 1)}}warning{{else}}{{#if (eq this.severity 2)}}info{{else}}hint{{/if}}{{/if}}{{/if}}">
+              <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                <strong>{{this.code}}</strong>
+                {{{severityBadge this.severity}}}
+              </div>
+              <p style="margin-bottom: 0.5rem;">{{this.message}}</p>
+              {{#if this.path}}
+                <p style="color: #7f8c8d; font-size: 0.9rem;">
+                  Path: <code>{{this.path}}</code>
+                </p>
+              {{/if}}
+              {{#if this.range}}
+                <p style="color: #7f8c8d; font-size: 0.9rem;">
+                  Location: Line {{this.range.start.line}}, Column {{this.range.start.character}}
+                </p>
+              {{/if}}
+            </div>
+          {{/each}}
+        {{else}}
+          <p style="color: #27ae60; padding: 1rem; background: #d4edda; border-radius: 4px;">
+            ✓ No issues found
+          </p>
+        {{/if}}
+      </div>
+    {{/with}}
+  </div>
+{{/if}}
+
+{{#if job.error}}
+  <div class="card">
+    <h2 style="color: #e74c3c;">Error Details</h2>
+    <div class="error">
+      <p><strong>Message:</strong> {{job.error.message}}</p>
+      {{#if job.error.code}}
+        <p style="margin-top: 0.5rem;"><strong>Code:</strong> <code>{{job.error.code}}</code></p>
+      {{/if}}
+      {{#if job.error.stack}}
+        <pre style="margin-top: 1rem; background: white;">{{job.error.stack}}</pre>
+      {{/if}}
+    </div>
+  </div>
+{{/if}}
+
+<div style="margin-top: 2rem;">
+  <a href="/" class="btn">← Back to Job Listing</a>
+  <a href="/jobs/{{job.jobId}}" class="btn" style="background: #95a5a6; margin-left: 1rem;">View JSON</a>
+</div>

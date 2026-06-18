@@ -1,0 +1,110 @@
+{
+  "name": "@cisco-open/linting-orchestrator",
+  "version": "1.0.0-rc.4",
+  "description": "Quality assurance for API specifications. An orchestrator daemon (spectifyd) and CLI (spectify) that run Spectral and custom rule engines at scale, with worker-per-ruleset architecture, document caching, and pluggable storage.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cisco-open/linting-orchestrator.git",
+    "directory": "packages/orchestrator"
+  },
+  "homepage": "https://github.com/cisco-open/linting-orchestrator#readme",
+  "bugs": {
+    "url": "https://github.com/cisco-open/linting-orchestrator/issues"
+  },
+  "spectify": {
+    "components": {
+      "server": "1.0.0-rc.3",
+      "cli": "1.0.0-rc.3"
+    }
+  },
+  "type": "module",
+  "main": "build/index.js",
+  "bin": {
+    "spectify": "build/cli/index.js",
+    "spectifyd": "build/index.js"
+  },
+  "scripts": {
+    "build": "tsc && chmod 755 build/index.js build/cli/index.js",
+    "rebuild": "rm -rf build && npm run build",
+    "dev": "tsx watch src/index.ts",
+    "start": "node build/index.js",
+    "mock": "tsx src/mock-server.ts",
+    "list-rulesets": "tsx src/cli/list-rulesets.ts",
+    "add-ruleset": "bash scripts/add-ruleset.sh",
+    "install-rulesets": "bash scripts/install-rulesets-dependencies.sh",
+    "check-rulesets": "bash scripts/check-rulesets-dependencies.sh",
+    "generate-openapi": "bash scripts/generate-openapi.sh",
+    "test": "vitest run",
+    "test:unit": "vitest run tests/unit",
+    "test:integration": "vitest run tests/integration/deployment-modes.test.ts tests/integration/loader-accessor.test.ts",
+    "test:mcp": "vitest run tests/integration/e2e.test.ts tests/integration/performance.test.ts",
+    "test:server": "vitest run tests/unit tests/integration/loader-accessor.test.ts tests/integration/deployment-modes.test.ts",
+    "test:cli": "vitest run tests/integration/cli-config.test.ts",
+    "test:integration:e2e": "vitest run tests/integration/e2e.test.ts",
+    "test:integration:loader": "vitest run tests/integration/loader-accessor.test.ts",
+    "test:integration:perf": "vitest run tests/integration/performance.test.ts",
+    "test:watch": "vitest --watch",
+    "test:coverage": "vitest run --coverage",
+    "lint": "tsc --noEmit",
+    "api-health": "curl -s -X GET http://localhost:3003/health | jq",
+    "api-stats": "curl -s -X GET http://localhost:3003/stats | jq",
+    "api-rulesets": "curl -s -X GET http://localhost:3003/rulesets | jq"
+  },
+  "keywords": [
+    "linting",
+    "spectral",
+    "orchestrator",
+    "api-quality",
+    "openapi",
+    "asyncapi",
+    "arazzo"
+  ],
+  "author": "Cisco Systems, Inc.",
+  "license": "Apache-2.0",
+  "contributors": [
+    "DevNet Team"
+  ],
+  "dependencies": {
+    "@cisco-open/linting-document-store": "*",
+    "@cisco-open/linting-reports": "*",
+    "@fastify/swagger": "^9.7.0",
+    "@stoplight/spectral-cli": "^6.11.0",
+    "@stoplight/spectral-core": "^1.18.3",
+    "@stoplight/spectral-functions": "^1.7.2",
+    "@stoplight/spectral-rulesets": "1.22.2",
+    "chalk": "^5.3.0",
+    "cli-table3": "^0.6.3",
+    "commander": "^11.1.0",
+    "dotenv": "^17.2.3",
+    "fastify": "^5.8.2",
+    "inquirer": "^9.3.8",
+    "ora": "^8.0.1",
+    "yaml": "^2.3.4"
+  },
+  "devDependencies": {
+    "@types/inquirer": "^9.0.9",
+    "@types/node": "^20.11.0",
+    "tsx": "^4.7.0",
+    "typescript": "^5.3.3",
+    "vitest": "^4.0.18"
+  },
+  "files": [
+    "build",
+    "rulesets",
+    "LICENSE",
+    "NOTICE",
+    "README.md"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "overrides": {
+    "minimatch": "^9.0.0",
+    "@stoplight/spectral-ruleset-bundler": {
+      "rollup": "^2.80.0"
+    }
+  }
+}

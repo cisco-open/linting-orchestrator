@@ -1,0 +1,128 @@
+# Spectify – docker-compose stack
+#
+# Runs spectifyd (orchestrator) + spectifyr (reports) from a single image.
+# Both containers share a named volume for uploads, the reports database,
+# and the pending-notifications queue.
+#
+# ── Quick start ───────────────────────────────────────────────────────────────
+#
+#   1. Set the shared API key (required for spectifyd → spectifyr auth):
+#        export SPECTIFY_API_KEY=$(openssl rand -hex 32)
+#
+#   2. Start the stack:
+#        docker compose up -d
+#
+#   3. Verify both services are healthy:
+#        docker compose ps
+#
+# ── CLI usage from the host ───────────────────────────────────────────────────
+#
+#   Install the CLI once:
+#     npm install -g @cisco-open/openapi-linting-orchestrator
+#
+#   The default standalone port (3003) is mapped to the host, so:
+#     spectify lint <document-id>
+#     spectify health
+#
+# ── CLI usage inside the container ───────────────────────────────────────────
+#
+#   docker exec spectify-orchestrator spectify lint <document-id>
+#
+# ── Port overrides ────────────────────────────────────────────────────────────
+#
+#   Override host-side ports without changing the compose file:
+#     SPECTIFYD_PORT=4003 SPECTIFYR_PORT=4010 docker compose up -d
+#
+# ── Persistent data ───────────────────────────────────────────────────────────
+#
+#   Default: Docker named volume `spectify-data` (managed by Docker).
+#   To use a host directory instead, replace the `volumes:` block below:
+#
+#     volumes:
+#       spectify-data:
+#         driver: local
+#         driver_opts:
+#           type: none
+#           o: bind
+#           device: /your/host/path/spectify-data
+#
+# ─────────────────────────────────────────────────────────────────────────────
+
+name: spectify
+
+services:
+
+  # ── Orchestrator daemon (spectifyd) ────────────────────────────────────────
+  orchestrator:
+    build:
+      context: .
+      target: runtime
+    image: spectify:latest
+    container_name: spectify-orchestrator
+    restart: unless-stopped
+    command: ["node", "packages/orchestrator/build/index.js"]
+    ports:
+      - "${SPECTIFYD_PORT:-3003}:3003"
+    volumes:
+      - spectify-data:/data/spectify
+    environment:
+      SPECTIFY_HOME: /data/spectify
+      NODE_ENV: production
+      SPECTIFYD_PORT: "3003"
+      SPECTIFYD_HOST: "0.0.0.0"
+      # Reports integration — container name resolves via Docker internal DNS.
+      SPECTIFYD_REPORTS_ENABLED: "true"
+      SPECTIFYD_REPORTS_URL: "http://reports:3010"
+      SPECTIFYD_REPORTS_STOP_IF_UNAVAILABLE: "false"
+      # Shared secret — set SPECTIFY_API_KEY in the host environment or a .env file.
+      # Never hard-code a value here.
+      SPECTIFYD_REPORTS_API_KEY: "${SPECTIFY_API_KEY:-}"
+    depends_on:
+      reports:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--spider", "http://localhost:3003/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+
+  # ── Reports service (spectifyr) ────────────────────────────────────────────
+  reports:
+    build:
+      context: .
+      target: runtime
+    image: spectify:latest
+    container_name: spectify-reports
+    restart: unless-stopped
+    command: ["node", "packages/reports/build/index.js"]
+    ports:
+      - "${SPECTIFYR_PORT:-3010}:3010"
+    volumes:
+      - spectify-data:/data/spectify
+    environment:
+      SPECTIFY_HOME: /data/spectify
+      NODE_ENV: production
+      SPECTIFYR_PORT: "3010"
+      SPECTIFYR_HOST: "0.0.0.0"
+      # Shared secret — must match SPECTIFYD_REPORTS_API_KEY.
+      SPECTIFYR_API_KEY: "${SPECTIFY_API_KEY:-}"
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--spider", "http://localhost:3010/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+
+# ── Named volume ───────────────────────────────────────────────────────────────
+# Shared by both containers.  Layout inside the volume:
+#
+#   uploads/                  document store (spectifyd)
+#   reports/
+#     database/reports.db     SQLite reports database (spectifyr)
+#     pending/                queued notifications (written by spectifyd, read by spectifyr)
+#     dead-letter/            permanently-failed notifications (spectifyr)
+#
+volumes:
+  spectify-data:
+    driver: local

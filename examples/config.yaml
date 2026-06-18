@@ -1,0 +1,55 @@
+# OpenAPI Lint Orchestrator Configuration
+
+server:
+  port: 3003
+  host: '0.0.0.0'
+
+documentStore:
+  type: 'local'  # 'local' (standalone) or 'mcp' (integration with MCP server)
+  baseDir: './uploads'  # For local: storage directory, For mcp: path to MCP uploads
+  fallbackHttp: 'http://localhost:3002'  # Optional HTTP fallback for MCP mode
+
+workerPool:
+  # Worker pool sizing (auto-detect based on CPU cores)
+  minWorkersPerRuleset: 1
+  maxWorkersPerRuleset: 2  # Per ruleset (laptop-friendly)
+  totalMaxWorkers: 15      # Global limit (can be overridden based on CPU)
+  
+  # Task execution
+  taskTimeout: 30000       # 30 seconds
+  maxRetries: 2            # Total 2 attempts (1 retry)
+  
+  # Scaling thresholds
+  scaleUpThreshold: 10     # Queue depth to trigger scale-up
+  scaleDownThreshold: 1    # Queue depth to trigger scale-down
+  
+  # Retry with exponential backoff
+  exponentialBackoff:
+    initialDelay: 1000     # 1 second
+    maxDelay: 30000        # 30 seconds
+    multiplier: 2          # Double each time
+  
+  # Document caching in workers
+  documentCache:
+    enabled: true
+    maxDocumentsPerWorker: 1           # LRU: keep last N documents
+    maxCacheSizePerWorker: 52428800    # 50MB
+    evictAfterMinutes: 5               # Evict idle cache after N minutes
+
+rulesets:
+  directory: './rulesets'
+  defaultVersion: 'latest'  # or specific version like '1.1.0'
+  cacheEnabled: true
+
+storage:
+  type: 'memory'  # 'memory' | 'redis' | 'custom'
+  # Redis configuration (if type: 'redis')
+  # connectionString: 'redis://localhost:6379'
+  # options:
+  #   ttl: 86400  # 24 hours
+
+logging:
+  level: 'info'       # 'debug' | 'info' | 'warn' | 'error'
+  format: 'json'      # 'json' | 'text'
+  destination: 'console'  # 'console' | 'file' | 'both'
+  # filePath: './logs/orchestrator.log'

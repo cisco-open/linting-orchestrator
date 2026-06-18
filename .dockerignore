@@ -1,0 +1,62 @@
+# ── Version control ──────────────────────────────────────────────────────────
+.git/
+.gitignore
+.gitmodules
+.gitattributes
+
+# ── Build outputs (rebuilt inside Docker) ────────────────────────────────────
+**/build/
+
+# ── Node modules (reinstalled inside Docker) ─────────────────────────────────
+node_modules/
+packages/*/node_modules/
+# Ruleset source deps are also reinstalled inside Docker by `npm run install-rulesets`
+packages/orchestrator/rulesets/sources/**/node_modules/
+
+# ── Tests and dev-only files ─────────────────────────────────────────────────
+**/tests/
+**/*.test.ts
+**/*.spec.ts
+coverage/
+vitest.config.ts
+
+# ── Documentation ─────────────────────────────────────────────────────────────
+docs/
+**/docs/
+# Materials are large vendored docs (gitignored on disk)
+packages/orchestrator/docs/materials/
+
+# ── Local development runtime data ───────────────────────────────────────────
+uploads/
+custom-uploads/
+pending-reports/
+dead-letter-reports/
+config/
+exports/
+spectify-reports/
+
+# ── Environment / secrets (never bake into the image) ────────────────────────
+.env
+.env.*
+
+# ── Docker files (don't copy themselves into the build context) ──────────────
+Dockerfile*
+docker-compose*.yml
+.dockerignore
+
+# ── Editor and OS artefacts ───────────────────────────────────────────────────
+.vscode/
+.idea/
+*.log
+*.tmp
+.DS_Store
+Thumbs.db
+
+# ── CI ────────────────────────────────────────────────────────────────────────
+.github/
+
+# ── Root-level scripts and config files not needed at runtime ─────────────────
+scripts/
+tsconfig.json
+test-report-integration.sh
+*.sh

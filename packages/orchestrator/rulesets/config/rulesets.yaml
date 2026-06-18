@@ -1,0 +1,96 @@
+# Spectify Built-in Ruleset Configuration
+#
+# This is the MINIMAL built-in ruleset shipped with the Spectify orchestrator.
+# It serves two purposes:
+#   1. A fresh `spectifyd` install works out of the box — no external repo needed.
+#   2. A concrete, tested example of the rulesets.yaml format.
+#
+# To supply your own ruleset catalogue, point Spectify at an external rulesets
+# directory via the SPECTIFYD_RULESETS_DIR environment variable or the
+# --rulesets-directory CLI flag. See:
+#   docs/maintainers/ruleset-externalization.md
+#
+# Architecture: Source Repositories → Configuration Layer → Exposed Rulesets
+
+rulesets:
+  # ============================================================================
+  # Built-in: OpenAPI Recommended (YAML-only, no npm dependencies)
+  # ============================================================================
+  - name: oas-recommended
+    displayName: "OpenAPI Recommended"
+    category: validation
+    origin: external
+    description: >
+      Core OpenAPI 3.x validation rules built on Spectral's built-in OAS
+      ruleset, extended with a small set of opinionated quality rules.
+      No npm dependencies required.
+    tags:
+      - oas
+      - spectral
+    metadata:
+      team: "Spectify"
+      repository: "https://github.com/cisco-open/spectify"
+      license: "Apache-2.0"
+      documentation: ""
+    versions:
+      - version: "1.0.0"
+        sourceRepo: "example/oas-recommended"
+        sourceVersion: "v1.0.0"
+        entrypoint: "ruleset.yaml"
+        releaseDate: "2026-06-01"
+        deprecated: false
+        changelog: "Initial release. Extends spectral:oas recommended profile."
+      - version: "2.0.0"
+        sourceRepo: "example/oas-recommended"
+        sourceVersion: "v2.0.0"
+        entrypoint: "ruleset.yaml"
+        releaseDate: "2026-06-01"
+        deprecated: false
+        changelog: >
+          v2: adds operation-operationId, operation-tags, and
+          info-contact-email rules on top of the v1 base.
+
+# ============================================================================
+# Default Configuration
+# ============================================================================
+# Default versions for each ruleset.
+# Should always point to stable, non-deprecated versions.
+# "latest" resolves to the last non-deprecated entry in the versions array.
+
+defaults:
+  oas-recommended: "2.0.0"
+
+# ============================================================================
+# Configuration Notes
+# ============================================================================
+#
+# Adding a new ruleset:
+# 1. Add source to: rulesets/sources/{sourceRepo}/{sourceVersion}/
+# 2. Add configuration entry above with unique name
+# 3. Set appropriate category, origin, and metadata
+# 4. Add to defaults section
+# 5. Restart Spectify service (or call cache refresh API when available)
+#
+# Updating an existing ruleset:
+# 1. Add new source version to sources directory
+# 2. Add new version entry under existing ruleset
+# 3. Update defaults to point to new version (optional)
+# 4. Mark old version as deprecated if needed (optional)
+#
+# For team-specific rulesets, use an external rulesets directory instead
+# of modifying this built-in configuration. See ruleset-externalization.md.
+#
+# Categories:
+#   - publishing: Rules for content publishing platforms
+#   - contract: API contract validation and quality
+#   - documentation: Documentation completeness and quality
+#   - validation: General validation and linting
+#   - security: Security-focused validation
+#   - other: Miscellaneous or multi-purpose rulesets
+#
+# Origins:
+#   - internal: Internal repositories
+#   - external: Public open-source repositories
+#   - third-party: External vendor/partner repositories
+#
+# ============================================================================

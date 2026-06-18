@@ -1,0 +1,31 @@
+{
+  "name": "spectify-monorepo",
+  "private": true,
+  "version": "1.0.0-rc.4",
+  "description": "Monorepo for the linting orchestrator, the linting reporting service, and the linting document store.",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cisco-open/linting-orchestrator.git"
+  },
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "npm run build --workspace=@cisco-open/linting-document-store && npm run build --workspace=@cisco-open/linting-reports && npm run build --workspace=@cisco-open/linting-orchestrator",
+    "test": "npm run test --workspaces --if-present",
+    "lint": "npm run lint --workspaces --if-present",
+    "dev": "npm run dev --workspace=@cisco-open/linting-orchestrator",
+    "add-ruleset": "npm run add-ruleset --workspace=@cisco-open/linting-orchestrator",
+    "install-rulesets": "npm run install-rulesets --workspace=@cisco-open/linting-orchestrator",
+    "check-rulesets": "npm run check-rulesets --workspace=@cisco-open/linting-orchestrator",
+    "generate-openapi": "npm run generate-openapi --workspace=@cisco-open/linting-orchestrator",
+    "postinstall": "npm run install-rulesets"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "overrides": {
+    "@stoplight/spectral-rulesets": "1.22.2"
+  }
+}

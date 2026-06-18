@@ -1,0 +1,14 @@
+# oas-recommended v2.0.0
+# Adds quality rules on top of the v1 base.
+extends: [[spectral:oas, recommended]]
+rules:
+  info-contact: true
+  operation-operationId: true
+  operation-tags: true
+  info-contact-email:
+    message: "info.contact must include an email address"
+    given: "$.info.contact"
+    severity: warn
+    then:
+      field: email
+      function: truthy
