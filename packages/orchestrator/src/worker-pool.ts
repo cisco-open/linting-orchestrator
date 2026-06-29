@@ -28,7 +28,7 @@ import os from 'os';
 import { fileURLToPath } from 'url';
 import { WorkerPoolConfig } from './types.js';
 import { RulesetLoader } from './ruleset-loader.js';
-import type { DocumentStoreAdapter } from '@cisco-open/linting-document-store';
+import type { DocumentStoreAdapter } from '@cisco_open/linting-document-store';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
