@@ -1,5 +1,5 @@
 {
-  "name": "@cisco-open/linting-orchestrator",
+  "name": "@cisco_open/linting-orchestrator",
   "version": "1.0.0-rc.4",
   "description": "Quality assurance for API specifications. An orchestrator daemon (spectifyd) and CLI (spectify) that run Spectral and custom rule engines at scale, with worker-per-ruleset architecture, document caching, and pluggable storage.",
   "repository": {

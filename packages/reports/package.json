@@ -1,5 +1,5 @@
 {
-  "name": "@cisco-open/linting-reports",
+  "name": "@cisco_open/linting-reports",
   "version": "1.0.0-rc.4",
   "clientVersion": "1.6.0",
   "description": "Persistent storage and web UI for lint job results. The linting reporting service (spectifyr) receives notifications from the linting orchestrator, stores them in SQLite, and exposes a browsable web UI.",
