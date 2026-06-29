@@ -12,14 +12,14 @@
     "packages/*"
   ],
   "scripts": {
-    "build": "npm run build --workspace=@cisco-open/linting-document-store && npm run build --workspace=@cisco-open/linting-reports && npm run build --workspace=@cisco-open/linting-orchestrator",
+    "build": "npm run build --workspace=@cisco_open/linting-document-store && npm run build --workspace=@cisco_open/linting-reports && npm run build --workspace=@cisco_open/linting-orchestrator",
     "test": "npm run test --workspaces --if-present",
     "lint": "npm run lint --workspaces --if-present",
-    "dev": "npm run dev --workspace=@cisco-open/linting-orchestrator",
-    "add-ruleset": "npm run add-ruleset --workspace=@cisco-open/linting-orchestrator",
-    "install-rulesets": "npm run install-rulesets --workspace=@cisco-open/linting-orchestrator",
-    "check-rulesets": "npm run check-rulesets --workspace=@cisco-open/linting-orchestrator",
-    "generate-openapi": "npm run generate-openapi --workspace=@cisco-open/linting-orchestrator",
+    "dev": "npm run dev --workspace=@cisco_open/linting-orchestrator",
+    "add-ruleset": "npm run add-ruleset --workspace=@cisco_open/linting-orchestrator",
+    "install-rulesets": "npm run install-rulesets --workspace=@cisco_open/linting-orchestrator",
+    "check-rulesets": "npm run check-rulesets --workspace=@cisco_open/linting-orchestrator",
+    "generate-openapi": "npm run generate-openapi --workspace=@cisco_open/linting-orchestrator",
     "postinstall": "npm run install-rulesets"
   },
   "engines": {
