@@ -253,7 +253,7 @@ describe('RulesetLoader', () => {
       await loader.loadVersion('oas-recommended');
       const duration2 = Date.now() - startTime2;
 
-      expect(duration2).toBeLessThan(duration1 / 10); // Cache should be 10x faster
+      expect(duration2).toBeLessThan(Math.max(duration1, 50) / 10); // Cache should be 10x faster (floor of 50ms on duration1 to avoid false failures on fast runtimes)
       expect(duration2).toBeLessThan(10); // Should be nearly instant
     });
 
