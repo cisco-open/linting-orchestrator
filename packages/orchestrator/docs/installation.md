@@ -12,8 +12,8 @@ The orchestrator provides **three global binaries** when fully installed:
 - **`spectifyd`** — Long-running orchestrator daemon (HTTP API + worker pool)
 - **`spectifyr`** — Optional reporting service (persistent SQLite + web UI at `:3010`)
 
-`spectify` and `spectifyd` are in the same package (`@cisco-open/linting-orchestrator`).  
-`spectifyr` is a separate package (`@cisco-open/linting-reports`) and must be installed separately.
+`spectify` and `spectifyd` are in the same package (`@cisco_open/linting-orchestrator`).  
+`spectifyr` is a separate package (`@cisco_open/linting-reports`) and must be installed separately.
 
 ---
 
@@ -23,52 +23,44 @@ There are **two installation methods**:
 
 | Method | Status | Use Case |
 |--------|--------|----------|
-| **npm registry** | 🚧 Coming soon | After package is published to npm |
-| **npm link (from source)** | ✅ Available now | Pre-publish testing and development |
-
-> **Why not `npm install -g ./packages/orchestrator`?**  
-> The orchestrator declares sibling packages (`@cisco-open/linting-document-store`,
-> `@cisco-open/linting-reports`) as regular npm dependencies. Outside of
-> the workspace, npm tries to resolve them from the registry — which hangs because
-> they aren't published yet. `npm link` avoids this by symlinking directly into
-> the workspace directory where those deps are already installed.
+| **npm registry** | ✅ Available | End users — recommended |
+| **npm link (from source)** | ✅ Available | Maintainers and contributors |
 
 ---
 
-## Method 1: npm Registry (Production - Coming Soon)
+## Method 1: npm Registry (Recommended)
 
-**Best for:** End users who want stable releases
-
-**Status:** 🚧 Not yet published to npm registry (coming in v0.5.0+)
-
-Once published, installation will be:
+**Best for:** End users
 
 ```bash
-# Install
-npm install -g @cisco-open/linting-orchestrator
+# Install the orchestrator (CLI + daemon)
+npm install -g @cisco_open/linting-orchestrator
 
-# Verify both binaries
-spectify --version         # CLI
-spectifyd --version  # Standalone server
+# Optional: install the reporting service
+npm install -g @cisco_open/linting-reports
+
+# Verify
+spectify --version
+spectifyd --version
+spectifyr --version
 
 # Upgrade
-npm update -g spectify
+npm update -g @cisco_open/linting-orchestrator
 
 # Uninstall
-npm uninstall -g spectify
+npm uninstall -g @cisco_open/linting-orchestrator
 ```
 
 **Advantages:**
 - ✅ Simplest installation
-- ✅ Automatic updates
-- ✅ Version management
 - ✅ No git clone needed
+- ✅ Version management via npm
 
 ---
 
-## Method 2: From Source — npm link
+## Method 2: From Source — npm link (Maintainers / Contributors)
 
-**Best for:** Pre-publish testing and active development
+**Best for:** Active development on the orchestrator itself
 
 `npm link` creates global symlinks pointing into the workspace packages.
 Because the symlinks resolve deps through the workspace's own `node_modules`,
@@ -79,7 +71,7 @@ npm never needs to fetch the sibling packages from the registry.
 ```bash
 # 1. Clone the repository
 git clone https://github.com/cisco-open/linting-orchestrator.git
-cd spectify
+cd linting-orchestrator
 
 # 2. Install workspace dependencies (links all packages/* together)
 npm install
@@ -88,8 +80,8 @@ npm install
 npm run build
 
 # 4. Create global symlinks for all three binaries
-npm link --workspace=@cisco-open/linting-orchestrator  # spectify + spectifyd
-npm link --workspace=@cisco-open/linting-reports        # spectifyr
+npm link --workspace=@cisco_open/linting-orchestrator  # spectify + spectifyd
+npm link --workspace=@cisco_open/linting-reports        # spectifyr
 
 # 5. Verify
 spectify --version && spectifyd --version && spectifyr --version
@@ -127,12 +119,11 @@ spectify --version
 ### Unlinking
 
 ```bash
-npm unlink --workspace=@cisco-open/linting-orchestrator
-npm unlink --workspace=@cisco-open/linting-reports
+npm unlink --workspace=@cisco_open/linting-orchestrator
+npm unlink --workspace=@cisco_open/linting-reports
 ```
 
 **Advantages:**
-- ✅ Works before npm publication
 - ✅ Rebuilding is sufficient — no reinstall step
 - ✅ Full source code access
 
@@ -144,14 +135,14 @@ npm unlink --workspace=@cisco-open/linting-reports
 
 ## Comparison Table
 
-| Feature | npm registry | npm install -g ./packages/orchestrator | npm link --workspace=… |
-|---------|--------------|------------------|----------|
-| **Complexity** | ⭐ Simple | ⭐⭐ Moderate | ⭐⭐⭐ Advanced |
-| **Installation Type** | Copy | Copy | Symlink |
-| **After Code Changes** | - | Reinstall | Just rebuild |
-| **Upgrade Command** | `npm update -g` | Pull + rebuild + reinstall | Pull + rebuild |
-| **Best For** | End users | Pre-release users | Developers |
-| **Both Binaries** | ✅ Yes | ✅ Yes | ✅ Yes |
+| Feature | npm registry (recommended) | npm link --workspace=… |
+|---------|----------------------------|------------------------|
+| **Complexity** | ⭐ Simple | ⭐⭐⭐ Advanced |
+| **Installation Type** | Copy | Symlink |
+| **After Code Changes** | — | Just rebuild |
+| **Upgrade Command** | `npm update -g` | Pull + rebuild |
+| **Best For** | End users | Maintainers / contributors |
+| **Both Binaries** | ✅ Yes | ✅ Yes |
 
 ---
 
@@ -159,19 +150,19 @@ npm unlink --workspace=@cisco-open/linting-reports
 
 ### Problem: Old version still showing after upgrade
 
-**Cause:** Multiple installations exist (both `npm install -g ./packages/orchestrator` and `npm link`)
+**Cause:** Multiple installations exist (both `npm install -g @cisco_open/linting-orchestrator` and `npm link`)
 
 **Solution:**
 ```bash
 # 1. Uninstall everything
-npm uninstall -g spectify
+npm uninstall -g @cisco_open/linting-orchestrator
 
 # 2. Choose ONE method:
 # For users:
-npm install -g ./packages/orchestrator
+npm install -g @cisco_open/linting-orchestrator
 
-# For developers:
-npm link --workspace=@cisco-open/linting-orchestrator
+# For maintainers:
+npm link --workspace=@cisco_open/linting-orchestrator
 ```
 
 ### Problem: `spectifyd` command not found
@@ -188,8 +179,8 @@ head -1 packages/orchestrator/build/index.js
 # Should show: #!/usr/bin/env node
 
 # 3. Reinstall
-npm uninstall -g spectify
-npm install -g ./packages/orchestrator   # or: npm link --workspace=@cisco-open/linting-orchestrator
+npm uninstall -g @cisco_open/linting-orchestrator
+npm install -g @cisco_open/linting-orchestrator   # or: npm link --workspace=@cisco_open/linting-orchestrator
 
 # 4. Verify
 which spectifyd
@@ -217,7 +208,7 @@ spectify --version
 **Cause:** Workspaces not linked, or a dependent package not built.
 
 This repo is an npm-workspaces monorepo. The orchestrator (`packages/orchestrator`)
-depends on `@cisco-open/linting-document-store` and `@cisco-open/linting-reports`,
+depends on `@cisco_open/linting-document-store` and `@cisco_open/linting-reports`,
 both of which live under `packages/`. They must be built before the orchestrator
 can resolve their entry points.
 
@@ -263,33 +254,20 @@ spectify health http://localhost:3003
 
 ### End User (Production)
 ```bash
-# When available on npm:
-npm install -g @cisco-open/linting-orchestrator
+npm install -g @cisco_open/linting-orchestrator
 spectify --help
 
 # Upgrade:
-npm update -g spectify
-```
-
-### Tester (Pre-Release)
-```bash
-# Clone, build, install:
-git clone <repo>
-cd spectify
-npm install && npm run build
-npm install -g ./packages/orchestrator
-
-# Upgrade every few weeks:
-git pull && npm install && npm run build && npm install -g ./packages/orchestrator
+npm update -g @cisco_open/linting-orchestrator
 ```
 
 ### Contributor (Development)
 ```bash
 # Clone, build, link:
-git clone <repo>
-cd spectify
+git clone https://github.com/cisco-open/linting-orchestrator.git
+cd linting-orchestrator
 npm install && npm run build
-npm link --workspace=@cisco-open/linting-orchestrator
+npm link --workspace=@cisco_open/linting-orchestrator
 
 # Daily workflow:
 # Edit code → npm run build → test immediately

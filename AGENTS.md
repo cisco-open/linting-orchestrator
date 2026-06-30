@@ -16,9 +16,9 @@ related TypeScript packages that ship together and depend on each other:
 
 | Path                          | Package                                       | Purpose | Binaries |
 | ----------------------------- | --------------------------------------------- | ------- | -------- |
-| `packages/orchestrator/`      | `@cisco-open/linting-orchestrator`            | Orchestrates Spectral + custom rule engines: HTTP API, worker pool, ruleset loader, CLI. | `spectify`, `spectifyd` |
-| `packages/reports/`           | `@cisco-open/linting-reports`                 | Reporting service: SQLite-backed report store, HTTP API for browsing/serving lint reports, plus a TypeScript client library that the orchestrator uses to deliver job-completion notifications. | `spectifyr` |
-| `packages/document-store/`    | `@cisco-open/linting-document-store`          | Pluggable document storage library. Shared by the orchestrator and (separately) by the MCP analysis server. | — (library) |
+| `packages/orchestrator/`      | `@cisco_open/linting-orchestrator`            | Orchestrates Spectral + custom rule engines: HTTP API, worker pool, ruleset loader, CLI. | `spectify`, `spectifyd` |
+| `packages/reports/`           | `@cisco_open/linting-reports`                 | Reporting service: SQLite-backed report store, HTTP API for browsing/serving lint reports, plus a TypeScript client library that the orchestrator uses to deliver job-completion notifications. | `spectifyr` |
+| `packages/document-store/`    | `@cisco_open/linting-document-store`          | Pluggable document storage library. Shared by the orchestrator and (separately) by the MCP analysis server. | — (library) |
 
 The three packages were merged into this monorepo when the project moved to
 its open-source identity. Prior to the merge they lived in three separate
@@ -30,15 +30,15 @@ those references as historical context, not current instructions.
 ## How the packages depend on each other
 
 ```
-@cisco-open/linting-document-store     (no internal deps)
+@cisco_open/linting-document-store     (no internal deps)
             ▲
             │
-@cisco-open/linting-reports            (uses document-store types)
+@cisco_open/linting-reports            (uses document-store types)
             ▲
             │
-@cisco-open/linting-orchestrator
-   ├── @cisco-open/linting-document-store
-   └── @cisco-open/linting-reports           (subpath import: "/client")
+@cisco_open/linting-orchestrator
+   ├── @cisco_open/linting-document-store
+   └── @cisco_open/linting-reports           (subpath import: "/client")
 ```
 
 Cross-package dependencies are declared with the workspace `"*"` specifier
@@ -47,7 +47,7 @@ and resolved by npm workspaces (root `package.json` declares
 repo root symlinks `packages/*` into each other's `node_modules/`.
 
 The orchestrator imports the reports **client library** via the package
-subpath `@cisco-open/linting-reports/client`. That subpath is
+subpath `@cisco_open/linting-reports/client`. That subpath is
 declared under `"exports"` in the reports package, and the orchestrator's
 `tsconfig.json` uses `"module": "NodeNext"` + `"moduleResolution": "NodeNext"`
 so TypeScript honours the `exports` map. Do not change those tsconfig
@@ -58,9 +58,9 @@ settings without re-verifying that the cross-package import still resolves.
 `npm run build` at the root explicitly chains the workspace builds in the
 correct topological order:
 
-1. `@cisco-open/linting-document-store`
-2. `@cisco-open/linting-reports`
-3. `@cisco-open/linting-orchestrator`
+1. `@cisco_open/linting-document-store`
+2. `@cisco_open/linting-reports`
+3. `@cisco_open/linting-orchestrator`
 
 Do not replace this with `npm run build --workspaces` (which iterates
 alphabetically and would attempt to build the orchestrator before its
@@ -79,13 +79,13 @@ npm run lint                         # type-checks every package
 npm run dev                          # tsx watch on the orchestrator
 
 # Working in one package only
-npm run build --workspace=@cisco-open/linting-reports
-npm test  --workspace=@cisco-open/linting-orchestrator
+npm run build --workspace=@cisco_open/linting-reports
+npm test  --workspace=@cisco_open/linting-orchestrator
 
 # Installing the orchestrator binaries globally for local testing
 npm install -g ./packages/orchestrator
 # …or, for active development (symlinked)
-npm link --workspace=@cisco-open/linting-orchestrator
+npm link --workspace=@cisco_open/linting-orchestrator
 ```
 
 All three packages use **vitest** for testing. Their `"test"` script must

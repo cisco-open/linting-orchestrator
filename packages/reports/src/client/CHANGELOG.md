@@ -12,7 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 **Initial open-source release.**
 
-First public release of the `@cisco-open/linting-reports/client` library under the Apache-2.0 license.
+First public release of the `@cisco_open/linting-reports/client` library under the Apache-2.0 license.
 
 ### Features
 

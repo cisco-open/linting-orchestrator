@@ -63,7 +63,7 @@ The **linting orchestrator** is an independent microservice that orchestrates li
 |--------|----------|-------------------|
 | `npm link` | **Developers** (you!) | Just `npm run build` (or `npm run rebuild` for clean) |
 | `npm install -g .` | Users/testers | Must reinstall |
-| `npm install -g @cisco-open/linting-orchestrator` | End users | Update via npm (not yet published) |
+| `npm install -g @cisco_open/linting-orchestrator` | End users | Update via npm |
 
 
 **Build Scripts:**
@@ -106,7 +106,7 @@ The orchestrator provides **two global binaries** (both installed automatically)
    - Used for: Production deployments, dedicated server instances
    - Command: `spectifyd` or `npm start`
 
-Both are defined in `package.json` under `bin` and work with all installation methods (`npm link`, `npm install -g .`, or `npm install -g @cisco-open/linting-orchestrator`).
+Both are defined in `package.json` under `bin` and work with all installation methods (`npm link`, `npm install -g .`, or `npm install -g @cisco_open/linting-orchestrator`).
 
 ### Testing
 
@@ -132,17 +132,17 @@ npm run test:integration:e2e
 
 ### Document Store (Workspace Package)
 
-**Location**: `../document-store/` (workspace package `@cisco-open/linting-document-store`)  
-**Import from**: `@cisco-open/linting-document-store`
+**Location**: `../document-store/` (workspace package `@cisco_open/linting-document-store`)  
+**Import from**: `@cisco_open/linting-document-store`
 
 ```bash
 # Workspace install handles linking; just rebuild after editing
-npm run build --workspace=@cisco-open/linting-document-store
+npm run build --workspace=@cisco_open/linting-document-store
 ```
 
 ```typescript
 // Import example
-import { LocalDocumentStore } from '@cisco-open/linting-document-store';
+import { LocalDocumentStore } from '@cisco_open/linting-document-store';
 ```
 
 ### MCP OpenAPI Analyzer (Optional Integration)

@@ -1,7 +1,7 @@
 {
   "name": "spectify-monorepo",
   "private": true,
-  "version": "1.0.0-rc.4",
+  "version": "1.0.0-rc.5",
   "description": "Monorepo for the linting orchestrator, the linting reporting service, and the linting document store.",
   "license": "Apache-2.0",
   "repository": {
@@ -20,6 +20,8 @@
     "install-rulesets": "npm run install-rulesets --workspace=@cisco_open/linting-orchestrator",
     "check-rulesets": "npm run check-rulesets --workspace=@cisco_open/linting-orchestrator",
     "generate-openapi": "npm run generate-openapi --workspace=@cisco_open/linting-orchestrator",
+    "sync-badge": "node scripts/sync-badge.mjs",
+    "prerelease": "npm run sync-badge && npm run build && npm test",
     "postinstall": "npm run install-rulesets"
   },
   "engines": {

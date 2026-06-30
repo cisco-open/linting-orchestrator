@@ -1,34 +1,43 @@
 # npm Registry Strategy
 
-Status: **Decision pending** · Last updated: 2026-06-01
+Status: **Resolved — published under `@cisco_open`** · Last updated: 2026-06-30
 
-This document captures the options for publishing the three packages to
-npm, and the fallback plan if `@cisco-open` cannot host node executables.
+This document captures the options that were considered for publishing the
+three packages to npm, and the fallback plan if the chosen scope could not
+host node executables.
+
+> **Naming note — npm scope vs. GitHub org.** The packages publish to npmjs.com
+> under the scope **`@cisco_open`** (underscore), whereas the GitHub org is
+> **`github.com/cisco-open/...`** (hyphen). The two identifiers differ by that
+> single character. Use the underscore form for anything npm-related
+> (`npm install`, `package.json` `name`, workspace specifiers) and the hyphen
+> form for repository URLs. The one exception is GitHub Packages (Option D
+> below), whose registry scope follows the GitHub org name (`@cisco-open`).
 
 ---
 
-## Current plan: `@cisco-open` scope
+## Published scope: `@cisco_open`
 
-The packages are currently named:
+The packages are published as:
 
 | Package | npm name | Binaries |
 |---------|----------|----------|
-| Orchestrator | `@cisco-open/linting-orchestrator` | `spectify`, `spectifyd` |
-| Reports | `@cisco-open/linting-reports` | `spectifyr` |
-| Document store | `@cisco-open/linting-document-store` | — (library) |
+| Orchestrator | `@cisco_open/linting-orchestrator` | `spectify`, `spectifyd` |
+| Reports | `@cisco_open/linting-reports` | `spectifyr` |
+| Document store | `@cisco_open/linting-document-store` | — (library) |
 
-This matches the GitHub org (`github.com/cisco-open/...`) and is the
-least-surprising setup for consumers: the npm scope mirrors the GitHub
-org, so all discovery is consistent.
+The npm scope `@cisco_open` (underscore) mirrors the GitHub org
+`github.com/cisco-open/...` (hyphen) as closely as npm naming allows, so
+discovery stays consistent across the two registries.
 
-**Blockers:**
-- Confirm that the `@cisco-open` npm org admin allows publishing
-  packages that ship node executables (CLI binaries).
-- Confirm publish credentials / automation (tokens, 2FA policy).
+**Resolved blockers:**
+- The `@cisco_open` npm org admin allows publishing packages that ship
+  node executables (CLI binaries).
+- Publish credentials / automation (tokens, 2FA policy) are in place.
 
 ---
 
-## Fallback options if `@cisco-open` cannot host CLIs
+## Fallback options if `@cisco_open` cannot host CLIs
 
 ### Option A: `@spectify` org scope (recommended fallback)
 
@@ -45,7 +54,7 @@ npm install    @spectify/document-store
 | Matches brand | Users already type `spectify` / `spectifyd` / `spectifyr` |
 | Discoverability | Clear package-to-binary mapping |
 | Drawback | Decouples npm identity from GitHub org — users must know `@spectify/*` ↔ `github.com/cisco-open/openapi-*` |
-| Migration cost | Low: one `npm deprecate` + publish under `@cisco-open` later |
+| Migration cost | Low: one `npm deprecate` + publish under `@cisco_open` later |
 
 **Package names under this option:**
 
@@ -130,7 +139,7 @@ access, not as a permanent solution.
 ### Option F: Dual-publish (Cisco scope for libraries, separate scope for CLIs)
 
 ```
-@cisco-open/linting-document-store   → library (no bin), under Cisco scope
+@cisco_open/linting-document-store   → library (no bin), under Cisco scope
 @spectify/cli                        → umbrella CLI package with all 3 binaries
 ```
 
@@ -145,7 +154,7 @@ access, not as a permanent solution.
 
 ## Recommendation
 
-1. **Ask for `@cisco-open` first.** It's the plan, and org alignment
+1. **Ask for `@cisco_open` first.** It's the plan, and org alignment
    is the cleanest setup.
 
 2. **If the answer is "no CLIs" or "takes months":**
@@ -153,10 +162,10 @@ access, not as a permanent solution.
    - Publish as `@spectify/orchestrator`, `@spectify/reports`,
      `@spectify/document-store`.
    - Document in each `package.json` and in this file that a scope
-     migration to `@cisco-open` is planned.
+     migration to `@cisco_open` is planned.
 
-3. **When `@cisco-open` becomes available:**
-   - `npm deprecate @spectify/orchestrator "moved to @cisco-open/linting-orchestrator"`
+3. **When `@cisco_open` becomes available:**
+   - `npm deprecate @spectify/orchestrator "moved to @cisco_open/linting-orchestrator"`
    - Publish under the new scope.
    - Update README install instructions.
    - One-line change in each `package.json`.
@@ -183,5 +192,5 @@ public package is **high** if you want early community adoption.
 ## References
 
 - [opensourcing.md](opensourcing.md) — full open-source rollout plan
-- Decision #6 in opensourcing.md: npm scope assumed `@cisco-open`
+- Decision #6 in opensourcing.md: npm scope resolved to `@cisco_open`
 - Decision #14 in opensourcing.md: hybrid workspace → publish path

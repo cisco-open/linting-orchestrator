@@ -140,7 +140,7 @@ pass it via a secrets manager.
 Install the CLI once globally:
 
 ```bash
-npm install -g @cisco-open/linting-orchestrator
+npm install -g @cisco_open/linting-orchestrator
 ```
 
 The CLI defaults to standalone mode on port 3003, which maps directly to the

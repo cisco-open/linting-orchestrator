@@ -18,7 +18,7 @@
 # ── CLI usage from the host ───────────────────────────────────────────────────
 #
 #   Install the CLI once:
-#     npm install -g @cisco-open/openapi-linting-orchestrator
+#     npm install -g @cisco_open/openapi-linting-orchestrator
 #
 #   The default standalone port (3003) is mapped to the host, so:
 #     spectify lint <document-id>

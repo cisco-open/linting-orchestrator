@@ -18,21 +18,17 @@ The orchestrator runs in two modes:
 ### Prerequisites
 
 ```bash
-# Node.js 18+ required
-node --version  # Should be >= 18.0.0
+# Node.js 20+ required
+node --version  # Should be >= 20.0.0
 
-# Install dependencies
-npm install
+# Install the orchestrator
+npm install -g @cisco_open/linting-orchestrator
 ```
 
 ### Start the Server
 
 ```bash
-# Build once
-npm run build
-
-# Start the server
-npm start
+spectifyd
 # Server runs on http://localhost:3003
 ```
 
@@ -83,15 +79,8 @@ curl http://localhost:3003/rulesets/pubhub | jq
 ### Prerequisites
 
 ```bash
-# 1. Clone MCP OpenAPI Analyzer (if not already)
-cd ..
-git clone <mcp-repo-url> mcp-openapi-analysis
-cd mcp-openapi-analysis
-npm install
-cd ../spectify
-
-# 2. Build Spectify
-npm install && npm run build
+# Install the orchestrator
+npm install -g @cisco_open/linting-orchestrator
 ```
 
 ### ⚠️ CRITICAL: Startup Order
@@ -99,9 +88,8 @@ npm install && npm run build
 **the orchestrator MUST start before MCP** (MCP checks the orchestrator health on startup)
 
 ```bash
-# Terminal 1: Start Spectify FIRST
-cd linting-orchestrator
-npm start -- --config config/companion.yaml
+# Terminal 1: Start the orchestrator FIRST
+spectifyd --config config/companion.yaml
 # Wait for: "✅ Orchestrator initialized on port 3003"
 
 # Terminal 2: Start MCP SECOND (after Spectify is ready)

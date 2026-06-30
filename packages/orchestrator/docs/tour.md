@@ -1,6 +1,6 @@
 # Tour of the linting orchestrator
 
-> From `git clone` to reading a lint report in five minutes.
+> From `npm install` to reading a lint report in five minutes.
 
 This guide walks through the complete workflow end-to-end:
 
@@ -10,44 +10,25 @@ This guide walks through the complete workflow end-to-end:
 
 ## Prerequisites
 
-- **Node.js 18+** — verify with `node --version`
-- **Git**
+- **Node.js 20+** — verify with `node --version`
 
 ---
 
-## Step 1 — Bootstrap
-
-Clone the repo and build all packages. This is the pre-registry path;
-once packages are published to npm, the clone step won't be needed.
+## Step 1 — Install
 
 ```bash
-git clone https://github.com/cisco-open/linting-orchestrator.git
-cd spectify
+# Install the orchestrator (spectify CLI + spectifyd daemon)
+npm install -g @cisco_open/linting-orchestrator
 
-npm install        # installs all workspace packages and links them together
-npm run build      # builds: document-store → reports → orchestrator
-```
-
-Install all three binaries globally via `npm link`.
-`npm link` creates global symlinks into the already-built workspace packages, so
-it never needs to resolve the sibling packages from the npm registry
-(they aren't published yet):
-
-```bash
-# Orchestrator: spectify (CLI) + spectifyd (daemon)
-npm link --workspace=@cisco-open/linting-orchestrator
-
-# Reports service: spectifyr
-npm link --workspace=@cisco-open/linting-reports
+# Optional: install the reporting service
+npm install -g @cisco_open/linting-reports
 
 # Verify
 spectify --version
 spectifyd --version
-spectifyr --version
 ```
 
-> After any `npm run build`, the linked binaries pick up your changes
-> automatically — no re-link needed.
+> **Maintainers / contributors:** For the source-based workflow (clone, build, npm link), see [installation.md](installation.md).
 
 ---
 

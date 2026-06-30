@@ -19,6 +19,37 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.0.0-rc.5] - 2026-06-30
+
+### Changed
+
+- Documentation and configuration now consistently use the published npm
+  scope `@cisco_open` (underscore), distinct from the `cisco-open` GitHub
+  org (hyphen). See [docs/maintainers/npmregistry.md](docs/maintainers/npmregistry.md).
+- Install and quick-start docs default to `npm install -g @cisco_open/...`;
+  the source-based workflow (clone + build + `npm link`) is now framed as
+  the maintainer/contributor path.
+
+### Added
+
+- `sync-badge` and `prerelease` npm scripts that keep the README status
+  badge in sync with the package version.
+
+### Fixed
+
+- Stabilized the ruleset-loader cache timing test that could fail on
+  faster runtimes (Node 24).
+
+### Packages
+
+| Package | Version |
+|---------|---------|
+| `@cisco_open/linting-orchestrator` | `1.0.0-rc.5` |
+| `@cisco_open/linting-reports` | `1.0.0-rc.5` |
+| `@cisco_open/linting-document-store` | `1.0.0-rc.5` |
+
+---
+
 ## [1.0.0-rc.4] - 2026-06-18
 
 **Initial open-source release.**
@@ -30,9 +61,9 @@ the Apache-2.0 license.
 
 | Package | Version |
 |---------|---------|
-| `@cisco-open/linting-orchestrator` | `1.0.0-rc.4` |
-| `@cisco-open/linting-reports` | `1.0.0-rc.4` |
-| `@cisco-open/linting-document-store` | `1.0.0-rc.4` |
+| `@cisco_open/linting-orchestrator` | `1.0.0-rc.4` |
+| `@cisco_open/linting-reports` | `1.0.0-rc.4` |
+| `@cisco_open/linting-document-store` | `1.0.0-rc.4` |
 
 ### Highlights
 

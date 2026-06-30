@@ -23,7 +23,7 @@ const script = options.dev
 ```
 
 **Why it breaks:**
-- When installed via `npm install -g @cisco-open/linting-orchestrator`, files go to `/usr/local/lib/node_modules/spectify/`
+- When installed via `npm install -g @cisco_open/linting-orchestrator`, files go to `/usr/local/lib/node_modules/spectify/`
 - Only compiled `build/` directory is shipped (no source `src/`)
 - The CLI binary location changes: `/usr/local/bin/spectify` → symlink to nested file
 - Relative path calculations become unreliable
@@ -68,7 +68,7 @@ const script = options.dev
 **User Experience:**
 ```bash
 # Install once
-npm install -g @cisco-open/linting-orchestrator
+npm install -g @cisco_open/linting-orchestrator
 
 # Just works - server starts automatically
 spectify lint openapi.yaml
@@ -231,7 +231,7 @@ node build/cli/index.js lint openapi.yaml --server http://localhost:3003
 ```
 
 **Limitations:**
-- ❌ Cannot `npm install -g @cisco-open/linting-orchestrator` (not published yet)
+- ❌ Cannot `npm install -g @cisco_open/linting-orchestrator` (not published yet)
 - ❌ CLI `start` command broken (path resolution issues)
 - ❌ Must run from source directory
 - ❌ No easy distribution to end users
@@ -472,13 +472,13 @@ CMD ["node", "build/index.js"]
 4. **Post-publish verification:**
    ```bash
    # Fresh install test
-   npm install -g @cisco-open/linting-orchestrator
+   npm install -g @cisco_open/linting-orchestrator
    spectify --version
    spectify health
    ```
 
 **Result:**
-- ✅ Available via `npm install -g @cisco-open/linting-orchestrator`
+- ✅ Available via `npm install -g @cisco_open/linting-orchestrator`
 - ✅ Works out-of-the-box
 - ✅ Both CLI and server included
 
@@ -493,7 +493,7 @@ CMD ["node", "build/index.js"]
 1. **Docker Image:**
    ```dockerfile
    FROM node:18-alpine
-   RUN npm install -g @cisco-open/linting-orchestrator
+   RUN npm install -g @cisco_open/linting-orchestrator
    EXPOSE 3003
    CMD ["spectifyd", "--config", "/etc/spectify/config.yaml"]
    ```
@@ -537,7 +537,7 @@ CMD ["node", "build/index.js"]
    # install-spectify.sh
    
    echo "Installing Spectify..."
-   npm install -g @cisco-open/linting-orchestrator
+   npm install -g @cisco_open/linting-orchestrator
    
    # Create service user
    useradd -r -s /bin/false spectify
@@ -940,7 +940,7 @@ orchestrator.registerEngine('custom-rules', new CustomRuleEngine());
 
 ```bash
 # Install
-npm install -g @cisco-open/linting-orchestrator
+npm install -g @cisco_open/linting-orchestrator
 
 # Use immediately (auto-starts embedded server)
 spectify lint openapi.yaml
@@ -956,7 +956,7 @@ spectify stop
 
 ```bash
 # Install
-npm install -g @cisco-open/linting-orchestrator
+npm install -g @cisco_open/linting-orchestrator
 
 # Start dedicated server
 spectifyd start --config /etc/spectify/config.yaml

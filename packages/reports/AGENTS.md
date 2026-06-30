@@ -7,7 +7,7 @@ Instructions for AI coding agents working on the linting reporting service.
 ## Project Overview
 
 **Linting Reports** (binary: `spectifyr`, package:
-`@cisco-open/linting-reports`) is the **linting reporting
+`@cisco_open/linting-reports`) is the **linting reporting
 service** — a standalone companion to the linting orchestrator
 that provides persistent storage and web-based browsing of lint job
 results.

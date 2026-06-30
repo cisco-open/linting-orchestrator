@@ -1,6 +1,6 @@
 # Linting Reporting Service (`spectifyr`)
 
-> Package: `@cisco-open/linting-reports`
+> Package: `@cisco_open/linting-reports`
 > Binary: `spectifyr`
 
 The **linting reporting service** stores lint job results

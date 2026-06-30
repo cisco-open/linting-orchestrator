@@ -214,6 +214,6 @@ import { LocalDocumentStore } from '../document-store/build/adapters/local-docum
 
 Once published to corporate registry:
 ```bash
-npm install @cisco-open/linting-document-store
-import { LocalDocumentStore } from '@cisco-open/linting-document-store/adapters/local';
+npm install @cisco_open/linting-document-store
+import { LocalDocumentStore } from '@cisco_open/linting-document-store/adapters/local';
 ```
