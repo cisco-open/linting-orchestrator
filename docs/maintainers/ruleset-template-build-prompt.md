@@ -10,7 +10,7 @@ any file.
 ## Workspace layout
 
 ```
-spectify/                         ← @cisco-open/linting-orchestrator monorepo
+spectify/                         ← @cisco_open/linting-orchestrator monorepo
 openapi-rulesets-template/       ← NEW template repo (to be built)
 ruleset-util/             ← existing utility repo (review before acting)
 ```

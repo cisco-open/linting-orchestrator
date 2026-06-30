@@ -1,6 +1,6 @@
 # Document store documentation
 
-User-facing documentation for the `@cisco-open/linting-document-store`
+User-facing documentation for the `@cisco_open/linting-document-store`
 package — the pluggable OpenAPI document storage library shared by
 the orchestrator and other consumers.
 

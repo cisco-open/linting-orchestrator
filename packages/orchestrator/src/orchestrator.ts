@@ -24,9 +24,9 @@
 import { randomUUID } from 'crypto';
 import { WorkerPoolManager, ExecuteTaskRequest, TaskResult } from './worker-pool.js';
 import { RulesetLoader } from './ruleset-loader.js';
-import type { DocumentStoreAdapter } from '@cisco-open/linting-document-store';
+import type { DocumentStoreAdapter } from '@cisco_open/linting-document-store';
 import { LintResultStorage } from './storage/storage-adapter.js';
-import { ReportServiceClient, CLIENT_VERSION } from '@cisco-open/linting-reports/client';
+import { ReportServiceClient, CLIENT_VERSION } from '@cisco_open/linting-reports/client';
 import type { ReportServiceConfig } from './types.js';
 import type {
   LintJob,

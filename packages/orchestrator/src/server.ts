@@ -26,7 +26,7 @@ import {
   LocalDocumentStore,
   PassThroughDocumentStore,
   type DocumentStoreAdapter,
-} from '@cisco-open/linting-document-store';
+} from '@cisco_open/linting-document-store';
 import { MemoryLintStorage } from './storage/memory-storage.js';
 import { SarifBuilder } from './formatters/sarif-builder.js';
 import { generateReproductionMarkdown } from './formatters/reproduce-markdown.js';

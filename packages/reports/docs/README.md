@@ -1,6 +1,6 @@
 # Reports documentation
 
-User-facing documentation for the `@cisco-open/linting-reports`
+User-facing documentation for the `@cisco_open/linting-reports`
 package — the `spectifyr` reporting service and its TypeScript client
 library.
 

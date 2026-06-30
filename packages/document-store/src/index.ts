@@ -1,5 +1,5 @@
 /**
- * @cisco-open/linting-document-store
+ * @cisco_open/linting-document-store
  * 
  * Pluggable document storage library for API specifications
  * 

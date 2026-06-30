@@ -19,17 +19,17 @@ import { ReportServiceClient } from './path/to/linting-reports/src/client/index.
 Or if published as npm package:
 
 ```bash
-npm install @cisco-open/linting-reports
+npm install @cisco_open/linting-reports
 ```
 
 ```typescript
-import { ReportServiceClient } from '@cisco-open/linting-reports';
+import { ReportServiceClient } from '@cisco_open/linting-reports';
 ```
 
 ### Basic Usage
 
 ```typescript
-import { ReportServiceClient } from '@cisco-open/linting-reports';
+import { ReportServiceClient } from '@cisco_open/linting-reports';
 
 // Create client
 const client = new ReportServiceClient({
@@ -226,7 +226,7 @@ setInterval(retryFailedNotifications, 600000); // Every 10 minutes
 
 ```typescript
 // spectify/src/orchestrator.ts
-import { ReportServiceClient } from '@cisco-open/linting-reports';
+import { ReportServiceClient } from '@cisco_open/linting-reports';
 
 class LintOrchestrator {
   private reportClient?: ReportServiceClient;
@@ -284,7 +284,7 @@ class LintOrchestrator {
 
 ```typescript
 // my-service/src/index.ts
-import { ReportServiceClient } from '@cisco-open/linting-reports';
+import { ReportServiceClient } from '@cisco_open/linting-reports';
 
 const client = new ReportServiceClient({
   url: process.env.SPECTIFYR_URL || 'http://localhost:3010',
@@ -510,7 +510,7 @@ import type {
   ClientStatus,
   ClientLogger,
   PendingNotification,
-} from '@cisco-open/linting-reports';
+} from '@cisco_open/linting-reports';
 ```
 
 See [src/client/types.ts](../src/client/types.ts) for complete type definitions.

@@ -1,6 +1,6 @@
 {
-  "name": "@cisco-open/linting-orchestrator",
-  "version": "1.0.0-rc.4",
+  "name": "@cisco_open/linting-orchestrator",
+  "version": "1.0.0-rc.5",
   "description": "Quality assurance for API specifications. An orchestrator daemon (spectifyd) and CLI (spectify) that run Spectral and custom rule engines at scale, with worker-per-ruleset architecture, document caching, and pluggable storage.",
   "repository": {
     "type": "git",
@@ -65,8 +65,8 @@
     "DevNet Team"
   ],
   "dependencies": {
-    "@cisco-open/linting-document-store": "*",
-    "@cisco-open/linting-reports": "*",
+    "@cisco_open/linting-document-store": "*",
+    "@cisco_open/linting-reports": "*",
     "@fastify/swagger": "^9.7.0",
     "@stoplight/spectral-cli": "^6.11.0",
     "@stoplight/spectral-core": "^1.18.3",

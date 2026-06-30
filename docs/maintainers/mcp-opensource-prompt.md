@@ -35,7 +35,7 @@ of that document before proceeding. Key rules to internalize:
 | Item | Before | After |
 |---|---|---|
 | Repository (GitHub) | `wwwin-github.cisco.com/DevNet/mcp-openapi-analysis` | `github.com/cisco-open/linting-mcp-analyzer` |
-| `package.json` `name` | `openapi-analysis-mcp` | `@cisco-open/linting-mcp-analyzer` |
+| `package.json` `name` | `openapi-analysis-mcp` | `@cisco_open/linting-mcp-analyzer` |
 | `package.json` `license` | `"MIT"` | `"Apache-2.0"` |
 | `package.json` `bin` key | `openapi-analysis-mcp` | `linting-mcp-analyzer` |
 | `package.json` local dep | `file:../spectify/packages/document-store` | `file:../linting-orchestrator/packages/document-store` |
@@ -109,7 +109,7 @@ git mv docs/maintainers/SPECTIFY_INTEGRATION_TESTING.md \
 
 Edit `package.json`:
 
-1. `"name"`: `"openapi-analysis-mcp"` → `"@cisco-open/linting-mcp-analyzer"`
+1. `"name"`: `"openapi-analysis-mcp"` → `"@cisco_open/linting-mcp-analyzer"`
 2. `"license"`: `"MIT"` → `"Apache-2.0"`
 3. `"bin"`: rename the key `"openapi-analysis-mcp"` → `"linting-mcp-analyzer"`
 4. Add `"repository"`, `"homepage"`, and `"bugs"` fields:
@@ -315,7 +315,7 @@ grep -rn "SPECTIFY_MCP_INTEGRATION\|SPECTIFY_INTEGRATION_TESTING" docs/ README.m
    orchestrator integration`
 3. Verify the repository URL and badge links point to
    `https://github.com/cisco-open/linting-mcp-analyzer`
-4. The `package.json` reference `"@cisco-open/linting-document-store":
+4. The `package.json` reference `"@cisco_open/linting-document-store":
    "file:../spectify/packages/document-store"` appears in README notes
    (line ~92); update to `file:../linting-orchestrator/packages/document-store`
 
@@ -332,7 +332,7 @@ new entry should read:
 
 ### Breaking changes
 
-- Package renamed from `openapi-analysis-mcp` to `@cisco-open/linting-mcp-analyzer`
+- Package renamed from `openapi-analysis-mcp` to `@cisco_open/linting-mcp-analyzer`
 - Binary renamed from `openapi-analysis-mcp` to `linting-mcp-analyzer`
 - Config YAML key `spectify:` renamed to `orchestrator:`
 - Env vars `SPECTIFY_ENABLED`, `SPECTIFY_BASE_URL`, `SPECTIFY_TIMEOUT` renamed to
@@ -407,7 +407,7 @@ that TypeScript compiles without errors.
 Use a single commit for the rename:
 
 ```
-feat: open-source rename — openapi-analysis-mcp → @cisco-open/linting-mcp-analyzer
+feat: open-source rename — openapi-analysis-mcp → @cisco_open/linting-mcp-analyzer
 
 - Rename package, binary, and repository to linting-mcp-analyzer under cisco-open
 - Rename src/spectify-client.ts → src/orchestrator-client.ts

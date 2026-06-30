@@ -6,38 +6,14 @@ Get started with the orchestrator command-line interface in minutes.
 
 ## 📦 Installation
 
-### Global Installation (Recommended)
-
 ```bash
-npm install -g @cisco-open/linting-orchestrator
+npm install -g @cisco_open/linting-orchestrator
 
 # Verify installation
 spectify --version
 ```
 
-### Local Installation (Project)
-
-```bash
-npm install spectify
-
-# Use via npx
-npx spectify --version
-```
-
-### From Source (Development)
-
-```bash
-git clone <repo-url>
-cd linting-orchestrator
-npm install
-npm run build
-
-# Link for global use
-npm link
-
-# Or run directly
-node build/cli/index.js --version
-```
+> **Contributors / maintainers:** For the source-based workflow, see [installation.md](installation.md).
 
 ---
 

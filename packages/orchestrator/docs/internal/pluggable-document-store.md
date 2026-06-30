@@ -828,7 +828,7 @@ SPECTIFYD_DOCUMENT_STORE_DIR=./uploads
 
 ```bash
 # 1. Install Spectify
-npm install -g @cisco-open/linting-orchestrator
+npm install -g @cisco_open/linting-orchestrator
 
 # 2. Initialize (creates config with local store)
 spectify init

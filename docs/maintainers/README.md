@@ -14,7 +14,7 @@ describe, under each package's `docs/internal/` directory:
 ## What's here
 
 - **[opensourcing.md](opensourcing.md)** — the plan for moving these
-  packages to their open-source identity (`@cisco-open/linting-*`).
+  packages to their open-source identity (`@cisco_open/linting-*`).
 - **[ruleset-externalization.md](ruleset-externalization.md)** — the
   architecture and schema for shipping rulesets outside the
   orchestrator package.

@@ -75,7 +75,7 @@ If `resolvedVersion` is missing, either:
 For audit or comparison, look directly inside the installed package:
 
 ```bash
-cat $(npm root -g)/@cisco-open/linting-orchestrator/node_modules/@stoplight/spectral-rulesets/package.json | jq .version
+cat $(npm root -g)/@cisco_open/linting-orchestrator/node_modules/@stoplight/spectral-rulesets/package.json | jq .version
 
 # Or, for a non-global install:
 cat /path/to/spectifyd/install/node_modules/@stoplight/spectral-rulesets/package.json | jq .version

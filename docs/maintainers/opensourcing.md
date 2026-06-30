@@ -28,10 +28,10 @@ keeping shell ergonomics short.
 
 | Concept             | Identifier (CLI / binary / env / package)                                            | Prose name                                |
 | ------------------- | ------------------------------------------------------------------------------------ | ----------------------------------------- |
-| Orchestrator daemon | `spectifyd`, `SPECTIFYD_*`, `@cisco-open/linting-orchestrator`               | **the OpenAPI linting orchestrator**      |
+| Orchestrator daemon | `spectifyd`, `SPECTIFYD_*`, `@cisco_open/linting-orchestrator`               | **the OpenAPI linting orchestrator**      |
 | CLI                 | `spectify`, `SPECTIFY_*`                                                              | **the orchestrator CLI**                  |
-| Reports service     | `spectifyr`, `SPECTIFYR_*`, `@cisco-open/linting-reports`                     | **the linting reporting service**         |
-| Document store      | (library only — no binary), `@cisco-open/linting-document-store`                     | **the OpenAPI document store**            |
+| Reports service     | `spectifyr`, `SPECTIFYR_*`, `@cisco_open/linting-reports`                     | **the linting reporting service**         |
+| Document store      | (library only — no binary), `@cisco_open/linting-document-store`                     | **the OpenAPI document store**            |
 
 **Where `spectify*` is allowed in prose:**
 
@@ -77,8 +77,8 @@ keeping shell ergonomics short.
 | 3 | Repo: reports               | `linting-reports` (ships `spectifyr` binary + client lib)                                                                    | Currently `spectify-reports/` submodule. |
 | 4 | Repo: document store        | `openapi-document-store` (library only, no binary)                                                                                   | Currently `document-store/` submodule. |
 | 5 | Repo: MCP consumer          | `mcp-openapi-analysis` (existing) — receives matching rename PR (env vars, URLs, client filename) | 4th coordinated repo. |
-| 6 | npm scope                   | `@cisco-open/*` (assumed; may change before first publish — track in §10 notes)                                                      | Matches GitHub org for least surprise. |
-| 7 | Package names               | `@cisco-open/linting-orchestrator`, `@cisco-open/linting-reports`, `@cisco-open/linting-document-store`              | All scoped. |
+| 6 | npm scope                   | `@cisco_open/*` (published; underscore form differs from the `cisco-open` GitHub org — see npmregistry.md)                            | Mirrors GitHub org as closely as npm naming allows. |
+| 7 | Package names               | `@cisco_open/linting-orchestrator`, `@cisco_open/linting-reports`, `@cisco_open/linting-document-store`              | All scoped. |
 | 8 | Binary names                | `spectify`, `spectifyd`, `spectifyr`                                                                                                 | See §1. |
 | 9 | Env-var prefixes            | `SPECTIFY_*` (CLI) · `SPECTIFYD_*` (daemon) · `SPECTIFYR_*` (reports)                                                                | Clean break: no `REPORT_SERVICE_*` aliases. |
 | 10 | On-disk paths              | Keep `~/.spectify/` for all three components (including `~/.spectify/reports/database/reports.db`)                                   | Zero user-data migration. |
@@ -148,11 +148,11 @@ spectify/        # repo root (umbrella)
 ├── package.json                     # "private": true, workspaces: ["packages/*"]
 ├── packages/
 │   ├── orchestrator/                # moved from repo root (src/, tests/, etc.)
-│   │   └── package.json             # name: @cisco-open/linting-orchestrator
+│   │   └── package.json             # name: @cisco_open/linting-orchestrator
 │   ├── reports/                     # moved from spectify-reports/
-│   │   └── package.json             # name: @cisco-open/linting-reports
+│   │   └── package.json             # name: @cisco_open/linting-reports
 │   └── document-store/              # moved from document-store/
-│       └── package.json             # name: @cisco-open/linting-document-store
+│       └── package.json             # name: @cisco_open/linting-document-store
 ├── rulesets/                        # stays at root (shared config-like asset)
 ├── docs/
 ├── scripts/
@@ -194,7 +194,7 @@ move. Coordinate the rename PR so it lands when the branch is quiet.
      "scripts": {
        "build": "npm run build --workspaces --if-present",
        "test":  "npm run test  --workspaces --if-present",
-       "dev":   "npm run dev   --workspace=@cisco-open/linting-orchestrator"
+       "dev":   "npm run dev   --workspace=@cisco_open/linting-orchestrator"
      }
    }
    ```
@@ -202,13 +202,13 @@ move. Coordinate the rename PR so it lands when the branch is quiet.
    the new scoped name, version `1.0.0-rc.1`, and Apache-2.0 license.
 6. **Cross-package deps.** Use the workspace protocol:
    ```json
-   "@cisco-open/linting-reports":  "workspace:*",
-   "@cisco-open/linting-document-store":   "workspace:*"
+   "@cisco_open/linting-reports":  "workspace:*",
+   "@cisco_open/linting-document-store":   "workspace:*"
    ```
    Replaces the current `file:./spectify-reports` and the relative
    `../document-store/build/*` imports.
 7. **Imports.** Find/replace `../document-store/build/...` →
-   `@cisco-open/linting-document-store/...` in orchestrator and reports.
+   `@cisco_open/linting-document-store/...` in orchestrator and reports.
 8. **Scripts.** `scripts/check-submodules.sh` is deleted. `npm run
    build:all` becomes redundant (workspaces handle it).
 9. **`tsconfig.json`.** Per-package `tsconfig.json` continues to compile
@@ -224,7 +224,7 @@ At v1.0 cutover:
 - Optionally split each `packages/*` back into its own public repo
   under `github.com/cisco-open/<repo>`. (Or keep the monorepo and
   publish from it — decide at cutover based on contribution patterns.)
-- Publish each package to npm under `@cisco-open/*` (confirm scope
+- Publish each package to npm under `@cisco_open/*` (confirm scope
   ownership before publishing).
 - Orchestrator and reports switch from `workspace:*` to versioned
   `^1.0.0` deps when consumed outside the monorepo.
@@ -247,7 +247,7 @@ All four repos use branch name **`rename/opensource`**.
 
 ### 5.1 `openapi-document-store` (currently `document-store/` submodule)
 
-- [ ] Rename `package.json` `name` → `@cisco-open/linting-document-store`, version `1.0.0-rc.1`
+- [ ] Rename `package.json` `name` → `@cisco_open/linting-document-store`, version `1.0.0-rc.1`
 - [ ] Relicense to Apache-2.0 (was already Apache-2.0? confirm; replace `LICENSE` if needed)
 - [ ] Update `README.md`, `AGENTS.md`, `CHANGELOG.md` to remove all `spectify` mentions (library is brand-free)
 - [ ] Update `repository` / `homepage` / `bugs` URLs to `github.com/cisco-open/openapi-document-store`
@@ -258,14 +258,14 @@ All four repos use branch name **`rename/opensource`**.
 
 ### 5.2 `linting-reports` (currently `spectify-reports/` submodule)
 
-- [ ] Rename `package.json` `name` → `@cisco-open/linting-reports`, version `1.0.0-rc.1`
+- [ ] Rename `package.json` `name` → `@cisco_open/linting-reports`, version `1.0.0-rc.1`
 - [ ] Add `bin: { "spectifyr": "build/cli.js" }` (create thin CLI entry if not present)
 - [ ] Relicense from MIT to Apache-2.0; replace `LICENSE` file; update `package.json` `license` field; add a CHANGELOG note about the relicense
 - [ ] Update env-var prefixes: `REPORT_SERVICE_*` → `SPECTIFYR_*` (keep DB path `~/.spectify/reports/database/reports.db`)
 - [ ] Update `npm start` script to use `SPECTIFYR_DB_PATH`
 - [ ] Update `README.md`, `AGENTS.md`, `CHANGELOG.md`
 - [ ] Update `repository` / `homepage` / `bugs` URLs to `github.com/cisco-open/linting-reports`
-- [ ] Update document-store dependency to `@cisco-open/linting-document-store`
+- [ ] Update document-store dependency to `@cisco_open/linting-document-store`
 - [ ] Tag pre-rename HEAD as `pre-rename-snapshot`
 - [ ] PR opened **after** document-store PR is merged
 
@@ -273,13 +273,13 @@ All four repos use branch name **`rename/opensource`**.
 
 - [ ] Reorganize into `packages/*` layout (see §4)
 - [ ] Add root workspace manifest `package.json`
-- [ ] Rename `packages/orchestrator/package.json` `name` → `@cisco-open/linting-orchestrator`, version `1.0.0-rc.1`
+- [ ] Rename `packages/orchestrator/package.json` `name` → `@cisco_open/linting-orchestrator`, version `1.0.0-rc.1`
 - [ ] Update `bin`: keep `spectify`; rename `spectify-server` → `spectifyd`
 - [ ] Update `spectify.components` block: rename `server` → `daemon`
 - [ ] Update version scheme: keep `{daemon}-cli{cli}` format, document in [`docs/VERSIONING_STRATEGY.md`](docs/VERSIONING_STRATEGY.md)
 - [ ] Update root `description`, `keywords`, `repository`, `homepage`, `bugs`
-- [ ] Update reports dep from `file:./spectify-reports` → `"@cisco-open/linting-reports": "workspace:*"`
-- [ ] Update document-store imports from `../document-store/build/*` → `@cisco-open/linting-document-store`
+- [ ] Update reports dep from `file:./spectify-reports` → `"@cisco_open/linting-reports": "workspace:*"`
+- [ ] Update document-store imports from `../document-store/build/*` → `@cisco_open/linting-document-store`
 - [ ] Update env vars in `src/config.ts`: split into `SPECTIFY_*` (CLI) and `SPECTIFYD_*` (daemon)
 - [ ] Update `src/formatters/sarif-builder.ts`:
   - Keep `tool.name = 'Spectify'`
@@ -389,12 +389,12 @@ or as a section in each repo's `CHANGELOG.md`.
 
 | Before                                                  | After                                                          |
 |---------------------------------------------------------|----------------------------------------------------------------|
-| `npm install -g spectify`                               | `npm install -g @cisco-open/linting-orchestrator`      |
+| `npm install -g spectify`                               | `npm install -g @cisco_open/linting-orchestrator`      |
 | `spectify-server` command                               | `spectifyd`                                                    |
 | `SPECTIFY_PORT`, `SPECTIFY_*` (daemon-scoped)           | `SPECTIFYD_PORT`, `SPECTIFYD_*`                                |
 | `REPORT_SERVICE_DB_PATH`                                | `SPECTIFYR_DB_PATH`                                            |
 | `git clone .../spectify`                                | `git clone github.com/cisco-open/spectify` |
-| `import ... from '../document-store/build/...'`         | `import ... from '@cisco-open/linting-document-store'`         |
+| `import ... from '../document-store/build/...'`         | `import ... from '@cisco_open/linting-document-store'`         |
 
 ### 8.2 What stays the same
 
@@ -458,10 +458,8 @@ After all four merge:
 All initial open decisions have been resolved (see §2 rows 6, 13, 17,
 18, 19, and §6.1). Items to revisit later:
 
-1. **npm scope confirmation.** We've assumed `@cisco-open/*`. Verify
-   scope ownership and that the org agrees before the first publish.
-   If the scope changes, it's a global find/replace across the
-   monorepo and the MCP consumer.
+1. **npm scope confirmation.** We've published under `@cisco_open/*`
+   (underscore — note this differs from the `cisco-open` GitHub org).
 2. **Splitting the monorepo at publish time.** Decide at v1.0 cutover
    whether to keep the monorepo (simpler) or split into three public
    repos (more conventional for independent packages). Driven by

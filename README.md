@@ -1,26 +1,28 @@
 # Linting Orchestrator for Quality Assurance
 
-> Quality assurance for API specifications — orchestrated linting with
+> Quality assurance for API descriptions — orchestrated linting with
 > [Spectral](https://stoplight.io/open-source/spectral) and custom rule engines.
 
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
-[![Status: pre-release](https://img.shields.io/badge/status-1.0.0--rc.3-orange.svg)](CHANGELOG.md)
+[![Status: pre-release](https://img.shields.io/badge/status-1.0.0--rc.5-orange.svg)](CHANGELOG.md)
 [![Node.js: >=20.x](https://img.shields.io/badge/Node.js-%3E%3D20.x-brightgreen.svg)](https://nodejs.org/)
 
 ## Quick start
 
 ```bash
-git clone https://github.com/cisco-open/linting-orchestrator.git
-cd linting-orchestrator
-npm install && npm run build
-npm link --workspace=@cisco-open/linting-orchestrator  # spectify + spectifyd
-npm link --workspace=@cisco-open/linting-reports        # spectifyr
+# Install the orchestrator (CLI + daemon)
+npm install -g @cisco_open/linting-orchestrator
+
+# Optional: install the reporting service
+npm install -g @cisco_open/linting-reports
 
 spectifyd &                             # start the orchestrator daemon
-spectify lint examples/petstore.yaml    # lint a document
+spectify lint path/to/your-api.yaml    # lint a YAML or JSON document
 ```
 
 > **New here?** The [tour](packages/orchestrator/docs/tour.md) walks through the full workflow: daemon, rulesets, results, and the reports UI.
+>
+> **Maintainers / contributors:** See [installation.md](packages/orchestrator/docs/installation.md) for the source-based workflow.
 
 ## What's in this repo
 
@@ -40,23 +42,23 @@ The orchestrator is designed as three cooperating components:
   embed the daemon for one-shot use, talk to a long-running daemon, or be
   driven from CI.
 - **The linting reporting service** (`spectifyr`, separate package
-  [`@cisco-open/linting-reports`](packages/reports/))
+  [`@cisco_open/linting-reports`](packages/reports/))
   persists job results into SQLite and exposes a small web UI for browsing
   them across runs.
 
 ## How it fits together
 
 ```
-┌──────────┐     ┌──────────────┐     ┌─────────┐     ┌──────────┐
-│ spectify │───▶│  spectifyd   │────▶│ workers │     │spectifyr │
-│  (CLI)   │     │  (daemon)    │     │ (Spec-  │───▶│ (reports │
-└──────────┘     │  HTTP API    │     │  tral)  │     │  + DB)   │
-                 └──────────────┘     └─────────┘     └──────────┘
-                       │                                  ▲
-                       ▼                                  │
-                ┌──────────────┐                          │
-                │  document    │                          │
-                │   store      │◀─────────────────────────┘
+┌──────────┐     ┌──────────────┐     ┌────────────┐     ┌────────────┐
+│ spectify │───▶│  spectifyd   │────▶│  workers   │     │ spectifyr  │
+│  (CLI)   │     │  (daemon)    │     │ (Spectral) │───▶│  (reports   │
+└──────────┘     │  HTTP API    │     │            │     │  + DB)     │
+                 └──────────────┘     └────────────┘     └────────────┘
+                       │                     ▲
+                       ▼                     │
+                ┌──────────────┐             │
+                │  document    │             │
+                │   store      │◀───────────┘
                 │ (filesystem) │
                 └──────────────┘
 ```
@@ -154,9 +156,9 @@ This repo is an npm-workspaces monorepo. The three packages live under
 
 | Path                          | Package name                                | Role |
 | ----------------------------- | ------------------------------------------- | ---- |
-| `packages/orchestrator/`      | `@cisco-open/linting-orchestrator`  | The orchestrator daemon (`spectifyd`) and CLI (`spectify`). |
-| `packages/reports/`           | `@cisco-open/linting-reports`       | The linting reporting service (`spectifyr`). |
-| `packages/document-store/`    | `@cisco-open/linting-document-store`        | Pluggable document-storage library. |
+| `packages/orchestrator/`      | `@cisco_open/linting-orchestrator`  | The orchestrator daemon (`spectifyd`) and CLI (`spectify`). |
+| `packages/reports/`           | `@cisco_open/linting-reports`       | The linting reporting service (`spectifyr`). |
+| `packages/document-store/`    | `@cisco_open/linting-document-store`        | Pluggable document-storage library. |
 
 Shared assets stay at the repo root: `rulesets/`, `scripts/`,
 `examples/`, `docs/`, plus the LICENSE and community files.

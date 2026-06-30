@@ -1,11 +1,11 @@
-# @cisco-open/linting-orchestrator
+# @cisco_open/linting-orchestrator
 
 Quality assurance for API specifications. An orchestrator daemon (`spectifyd`) and CLI (`spectify`) that run [Spectral](https://stoplight.io/open-source/spectral) and custom rule engines at scale, with worker-per-ruleset architecture, document caching, and pluggable storage.
 
 ## Installation
 
 ```bash
-npm install -g @cisco-open/linting-orchestrator
+npm install -g @cisco_open/linting-orchestrator
 ```
 
 ## Quick Start
@@ -35,8 +35,8 @@ This package is part of the [spectify](https://github.com/cisco-open/linting-orc
 
 | Package | Description |
 |---------|-------------|
-| `@cisco-open/linting-reports` | Report storage service (`spectifyr`) |
-| `@cisco-open/linting-document-store` | Pluggable document storage library |
+| `@cisco_open/linting-reports` | Report storage service (`spectifyr`) |
+| `@cisco_open/linting-document-store` | Pluggable document storage library |
 
 ## License
 

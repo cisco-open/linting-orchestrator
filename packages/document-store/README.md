@@ -1,12 +1,12 @@
-# @cisco-open/linting-document-store
+# @cisco_open/linting-document-store
 
 **Pluggable document storage library for API specifications**
 
-This package provides a unified interface for storing and retrieving API specification documents, with multiple backend implementations. It is shared by [`@cisco-open/linting-orchestrator`](https://github.com/cisco-open/linting-orchestrator) and the [MCP Analysis](https://github.com/cisco-open/mcp-openapi-analysis) server.
+This package provides a unified interface for storing and retrieving API specification documents, with multiple backend implementations. It is shared by [`@cisco_open/linting-orchestrator`](https://github.com/cisco-open/linting-orchestrator) and the [MCP Analysis](https://github.com/cisco-open/mcp-openapi-analysis) server.
 
 > Inside the orchestrator repo this package is an npm workspace at
 > `packages/document-store/`. It is consumed by the orchestrator and
-> reports packages via the workspace dependency `"@cisco-open/linting-document-store": "*"`.
+> reports packages via the workspace dependency `"@cisco_open/linting-document-store": "*"`.
 > Until it is published to an npm registry, downstream consumers should
 > use either an npm workspace, `file:` dependency, or `npm pack` tarball.
 
@@ -38,13 +38,13 @@ In a sibling workspace package, declare a dep and import normally:
 // packages/<your-package>/package.json
 {
   "dependencies": {
-    "@cisco-open/linting-document-store": "*"
+    "@cisco_open/linting-document-store": "*"
   }
 }
 ```
 
 ```ts
-import { LocalDocumentStore, PassThroughDocumentStore } from '@cisco-open/linting-document-store';
+import { LocalDocumentStore, PassThroughDocumentStore } from '@cisco_open/linting-document-store';
 ```
 
 ### NPM (future)
@@ -52,12 +52,12 @@ import { LocalDocumentStore, PassThroughDocumentStore } from '@cisco-open/lintin
 Once published to a registry:
 
 ```bash
-npm install @cisco-open/linting-document-store
+npm install @cisco_open/linting-document-store
 ```
 
 ```ts
-import { LocalDocumentStore } from '@cisco-open/linting-document-store/adapters/local';
-import { PassThroughDocumentStore } from '@cisco-open/linting-document-store/adapters/pass-through';
+import { LocalDocumentStore } from '@cisco_open/linting-document-store/adapters/local';
+import { PassThroughDocumentStore } from '@cisco_open/linting-document-store/adapters/pass-through';
 ```
 
 ## Quick Start
@@ -65,7 +65,7 @@ import { PassThroughDocumentStore } from '@cisco-open/linting-document-store/ada
 ### Local Document Store (Standalone)
 
 ```typescript
-import { LocalDocumentStore } from '@cisco-open/linting-document-store/adapters/local';
+import { LocalDocumentStore } from '@cisco_open/linting-document-store/adapters/local';
 
 const store = new LocalDocumentStore({
   uploadsDir: './uploads',
@@ -100,7 +100,7 @@ const path = await store.getDocumentPath(documentId);
 ### PassThrough Document Store (Integration)
 
 ```typescript
-import { PassThroughDocumentStore } from '@cisco-open/linting-document-store/adapters/pass-through';
+import { PassThroughDocumentStore } from '@cisco_open/linting-document-store/adapters/pass-through';
 
 const store = new PassThroughDocumentStore({
   uploadsDir: '../mcp-openapi-analysis/uploads',
@@ -351,7 +351,7 @@ const accessor = new DocumentAccessor({ documentStorePath: './uploads' });
 const path = accessor.getDocumentPath(documentId);
 
 // After
-import { PassThroughDocumentStore } from '@cisco-open/linting-document-store/adapters/pass-through';
+import { PassThroughDocumentStore } from '@cisco_open/linting-document-store/adapters/pass-through';
 const store = new PassThroughDocumentStore({ uploadsDir: './uploads' });
 await store.initialize();
 const path = await store.getDocumentPath(documentId);
@@ -366,7 +366,7 @@ const coordinator = new DocumentCoordinator('./datastore', 10, 100);
 await coordinator.initialize();
 
 // After
-import { LocalDocumentStore } from '@cisco-open/linting-document-store/adapters/local';
+import { LocalDocumentStore } from '@cisco_open/linting-document-store/adapters/local';
 const store = new LocalDocumentStore({
   uploadsDir: './datastore',
   quotaGB: 10,
